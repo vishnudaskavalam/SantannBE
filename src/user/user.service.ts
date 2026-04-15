@@ -32,4 +32,8 @@ export class UserService {
   async findOneByEmail(email: string): Promise<UserDocument | null> {
     return this.userModel.findOne({ email }).exec();
   }
+
+  async findOneByToken(token: string): Promise<UserDocument | null> {
+    return this.userModel.findOne({ resetPasswordToken: token }).exec();
+  }
 }
