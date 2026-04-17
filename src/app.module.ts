@@ -7,6 +7,8 @@ import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { MailModule } from './mail/mail.module';
 import { EnquiryModule } from './enquiry/enquiry.module';
+import { TreatmentsModule } from './treatments/treatments.module';
+import { SettingsModule } from './settings/settings.module';
 
 @Module({
   imports: [
@@ -24,6 +26,8 @@ import { EnquiryModule } from './enquiry/enquiry.module';
     AuthModule,
     MailModule,
     EnquiryModule,
+    TreatmentsModule,
+    SettingsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
