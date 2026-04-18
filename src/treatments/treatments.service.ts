@@ -32,7 +32,7 @@ export class TreatmentsService {
     // Select only requested fields: name and slug, implicitly excluding deleted perhaps?
     // User requested: list (only name and slug). We should probably exclude deleted ones from general admin view, or keep them.
     // Let's exclude deleted to be safe, or just return all and frontend filters. I'll exclude deleted.
-    return this.treatmentModel.find({ status: { $ne: 'deleted' } }).select('name slug status').exec();
+    return this.treatmentModel.find({ status: { $ne: 'deleted' } }).exec();
   }
 
   async findOneAdmin(id: string): Promise<Treatment> {

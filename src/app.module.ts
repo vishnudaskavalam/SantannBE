@@ -9,6 +9,7 @@ import { MailModule } from './mail/mail.module';
 import { EnquiryModule } from './enquiry/enquiry.module';
 import { TreatmentsModule } from './treatments/treatments.module';
 import { SettingsModule } from './settings/settings.module';
+import { MediaModule } from './media/media.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { SettingsModule } from './settings/settings.module';
     EnquiryModule,
     TreatmentsModule,
     SettingsModule,
+    MediaModule,
   ],
   controllers: [AppController],
   providers: [AppService],
