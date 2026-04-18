@@ -98,4 +98,51 @@ export class EnquiryService {
     const count = await this.enquiryModel.countDocuments({ status: 'new' }).exec();
     return { count };
   }
+
+  async getMonthlyStats() {
+    const oneYearAgo = new Date();
+    oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+
+    const stats = await this.enquiryModel.aggregate([
+      {
+        $match: {
+          date: { $gte: oneYearAgo }
+        }
+      },
+      {
+        $group: {
+          _id: { 
+            year: { $year: "$date" }, 
+            month: { $month: "$date" } 
+          },
+          count: { $sum: 1 }
+        }
+      },
+      {
+        $sort: { "_id.year": 1, "_id.month": 1 }
+      }
+    ]).exec();
+
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    
+    const last12Months = [];
+    const currentDate = new Date();
+    
+    for (let i = 11; i >= 0; i--) {
+      const d = new Date(currentDate.getFullYear(), currentDate.getMonth() - i, 1);
+      last12Months.push({
+        year: d.getFullYear(),
+        month: d.getMonth() + 1,
+        dateString: `${monthNames[d.getMonth()]} ${d.getFullYear()}`
+      });
+    }
+
+    return last12Months.map(month => {
+      const found = stats.find(s => s._id.year === month.year && s._id.month === month.month);
+      return {
+        date: month.dateString,
+        count: found ? found.count : 0
+      };
+    });
+  }
 }

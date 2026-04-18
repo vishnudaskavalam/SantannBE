@@ -28,6 +28,22 @@ export class EnquiryController {
 
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
+  @ApiOperation({ summary: 'Get count of new enquiries' })
+  @Get('count/new')
+  countNew() {
+    return this.enquiryService.countNew();
+  }
+
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @ApiOperation({ summary: 'Get monthly stats for enquiries' })
+  @Get('stats/monthly')
+  getMonthlyStats() {
+    return this.enquiryService.getMonthlyStats();
+  }
+
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Get details of a specific enquiry' })
   @Get(':id')
   findOne(@Param('id') id: string) {
@@ -40,13 +56,5 @@ export class EnquiryController {
   @Patch(':id/status')
   updateStatus(@Param('id') id: string, @Body() updateEnquiryStatusDto: UpdateEnquiryStatusDto) {
     return this.enquiryService.updateStatus(id, updateEnquiryStatusDto);
-  }
-
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
-  @ApiOperation({ summary: 'Get total count of new enquiries' })
-  @Get('count/new')
-  countNew() {
-    return this.enquiryService.countNew();
   }
 }
