@@ -13,6 +13,9 @@ class GeneralSettings {
 
   @Prop()
   hours: string;
+
+  @Prop()
+  address: string;
 }
 
 @Schema()

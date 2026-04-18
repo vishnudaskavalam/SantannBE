@@ -18,6 +18,8 @@ export class TreatmentsService {
   }
 
   async update(id: string, updateTreatmentDto: UpdateTreatmentDto): Promise<Treatment> {
+    console.log(updateTreatmentDto);
+    
     const updatedTreatment = await this.treatmentModel
       .findByIdAndUpdate(id, updateTreatmentDto, { new: true })
       .exec();

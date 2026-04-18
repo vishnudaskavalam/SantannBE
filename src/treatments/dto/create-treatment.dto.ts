@@ -1,5 +1,18 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsString, IsNotEmpty, IsOptional, IsArray, IsEnum } from 'class-validator';
+import { IsString, IsNotEmpty, IsOptional, IsArray, IsEnum, ValidateNested } from 'class-validator';
+import { Type } from 'class-transformer';
+
+export class ProcessStepDto {
+  @ApiPropertyOptional()
+  @IsString()
+  @IsOptional()
+  step?: string;
+
+  @ApiPropertyOptional()
+  @IsString()
+  @IsOptional()
+  detail?: string;
+}
 
 export class CreateTreatmentDto {
   @ApiProperty({ example: 'In Vitro Fertilization (IVF)' })
@@ -32,15 +45,21 @@ export class CreateTreatmentDto {
   @IsOptional()
   status?: string;
 
+  @ApiPropertyOptional({ example: 'cell' })
+  @IsString()
+  @IsOptional()
+  iconType?: string;
+
   @ApiPropertyOptional({ type: [String], example: ['High success rate', 'Safe'] })
   @IsArray()
   @IsString({ each: true })
   @IsOptional()
   keyBenefits?: string[];
 
-  @ApiPropertyOptional({ type: [String], example: ['Consultation', 'Stimulation', 'Retrieval'] })
+  @ApiPropertyOptional({ type: [ProcessStepDto] })
   @IsArray()
-  @IsString({ each: true })
+  @ValidateNested({ each: true })
+  @Type(() => ProcessStepDto)
   @IsOptional()
-  process?: string[];
+  process?: ProcessStepDto[];
 }

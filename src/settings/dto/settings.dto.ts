@@ -17,6 +17,11 @@ export class GeneralSettingsDto {
   @IsString()
   @IsOptional()
   hours?: string;
+
+  @ApiPropertyOptional()
+  @IsString()
+  @IsOptional()
+  address?: string;
 }
 
 export class AboutSettingsDto {

@@ -3,6 +3,15 @@ import { Document } from 'mongoose';
 
 export type TreatmentDocument = Treatment & Document;
 
+@Schema()
+class ProcessStep {
+  @Prop()
+  step: string;
+
+  @Prop()
+  detail: string;
+}
+
 @Schema({ timestamps: true })
 export class Treatment {
   @Prop({ required: true })
@@ -17,17 +26,17 @@ export class Treatment {
   @Prop()
   description: string;
 
-  @Prop()
-  imagePath: string;
-
   @Prop({ required: true, enum: ['active', 'inactive', 'deleted'], default: 'active' })
   status: string;
+
+  @Prop()
+  iconType: string;
 
   @Prop([String])
   keyBenefits: string[];
 
-  @Prop([String])
-  process: string[];
+  @Prop({ type: [ProcessStep], default: [] })
+  process: ProcessStep[];
 }
 
 export const TreatmentSchema = SchemaFactory.createForClass(Treatment);
