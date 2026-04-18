@@ -93,4 +93,9 @@ export class EnquiryService {
     }
     return existingEnquiry;
   }
+
+  async countNew(): Promise<{ count: number }> {
+    const count = await this.enquiryModel.countDocuments({ status: 'new' }).exec();
+    return { count };
+  }
 }

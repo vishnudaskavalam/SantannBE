@@ -41,4 +41,12 @@ export class EnquiryController {
   updateStatus(@Param('id') id: string, @Body() updateEnquiryStatusDto: UpdateEnquiryStatusDto) {
     return this.enquiryService.updateStatus(id, updateEnquiryStatusDto);
   }
+
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @ApiOperation({ summary: 'Get total count of new enquiries' })
+  @Get('count/new')
+  countNew() {
+    return this.enquiryService.countNew();
+  }
 }
