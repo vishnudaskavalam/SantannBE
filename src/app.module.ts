@@ -10,6 +10,7 @@ import { EnquiryModule } from './enquiry/enquiry.module';
 import { TreatmentsModule } from './treatments/treatments.module';
 import { SettingsModule } from './settings/settings.module';
 import { MediaModule } from './media/media.module';
+import { ContactModule } from './contact/contact.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { MediaModule } from './media/media.module';
     TreatmentsModule,
     SettingsModule,
     MediaModule,
+    ContactModule,
   ],
   controllers: [AppController],
   providers: [AppService],
