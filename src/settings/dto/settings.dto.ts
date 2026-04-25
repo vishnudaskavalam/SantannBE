@@ -27,6 +27,16 @@ export class GeneralSettingsDto {
   @IsString()
   @IsOptional()
   logoPath?: string;
+
+  @ApiPropertyOptional()
+  @IsString()
+  @IsOptional()
+  footerDescription?: string;
+
+  @ApiPropertyOptional()
+  @IsString()
+  @IsOptional()
+  workingHours?: string;
 }
 
 export class AboutSettingsDto {

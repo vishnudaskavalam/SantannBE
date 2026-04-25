@@ -19,6 +19,12 @@ class GeneralSettings {
 
   @Prop()
   logoPath: string;
+
+  @Prop()
+  footerDescription: string;
+
+  @Prop()
+  workingHours: string;
 }
 
 @Schema()
