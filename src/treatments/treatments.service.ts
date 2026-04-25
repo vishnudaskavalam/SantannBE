@@ -60,7 +60,7 @@ export class TreatmentsService {
     // Returns name, shortDescription, imagePath
     return this.treatmentModel
       .find({ status: 'active' })
-      .select('name shortDescription imagePath slug')
+      .select('name shortDescription imagePath slug iconType')
       .exec();
   }
 

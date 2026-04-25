@@ -22,6 +22,11 @@ export class GeneralSettingsDto {
   @IsString()
   @IsOptional()
   address?: string;
+
+  @ApiPropertyOptional()
+  @IsString()
+  @IsOptional()
+  logoPath?: string;
 }
 
 export class AboutSettingsDto {
@@ -34,6 +39,26 @@ export class AboutSettingsDto {
   @IsString()
   @IsOptional()
   body?: string;
+
+  @ApiPropertyOptional()
+  @IsString()
+  @IsOptional()
+  heroImage?: string;
+
+  @ApiPropertyOptional()
+  @IsString()
+  @IsOptional()
+  mainImage?: string;
+
+  @ApiPropertyOptional()
+  @IsString()
+  @IsOptional()
+  cardTitle?: string;
+
+  @ApiPropertyOptional()
+  @IsString()
+  @IsOptional()
+  cardBody?: string;
 }
 
 export class SectionSettingsDto {

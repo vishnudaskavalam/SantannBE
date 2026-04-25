@@ -16,6 +16,9 @@ class GeneralSettings {
 
   @Prop()
   address: string;
+
+  @Prop()
+  logoPath: string;
 }
 
 @Schema()
@@ -25,6 +28,18 @@ class AboutSettings {
 
   @Prop()
   body: string;
+
+  @Prop()
+  heroImage: string;
+
+  @Prop()
+  mainImage: string;
+
+  @Prop()
+  cardTitle: string;
+
+  @Prop()
+  cardBody: string;
 }
 
 @Schema()
@@ -99,6 +114,15 @@ class HomePageSettings {
   questionsSection: SectionSettings;
 }
 
+@Schema()
+class TeamSettings {
+  @Prop()
+  headline: string;
+
+  @Prop()
+  body: string;
+}
+
 @Schema({ timestamps: true })
 export class Setting {
   @Prop({ type: GeneralSettings, default: {} })
@@ -106,6 +130,9 @@ export class Setting {
 
   @Prop({ type: AboutSettings, default: {} })
   about: AboutSettings;
+
+  @Prop({ type: TeamSettings, default: {} })
+  team: TeamSettings;
 
   @Prop({ type: HomePageSettings, default: {} })
   homePage: HomePageSettings;
