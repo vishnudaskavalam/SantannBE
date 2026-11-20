@@ -12,5 +12,6 @@ import { ContactMessage, ContactMessageSchema } from './schemas/contact.schema';
   ],
   controllers: [ContactController],
   providers: [ContactService],
+  exports: [ContactService],
 })
 export class ContactModule {}

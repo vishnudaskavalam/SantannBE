@@ -16,7 +16,6 @@ describe('AuthController', () => {
       }),
       refreshToken: jest.fn().mockResolvedValue({
         access_token: 'new_access_token',
-        refreshToken: 'new_refresh_token',
         user: { _id: '123', email: 'test@example.com' },
       }),
       logout: jest.fn().mockResolvedValue(undefined),
@@ -62,7 +61,7 @@ describe('AuthController', () => {
   });
 
   describe('refresh', () => {
-    it('should refresh token using cookie and set new cookie', async () => {
+    it('should refresh token using cookie', async () => {
       const mockReq = { cookies: { refreshToken: 'mock_refresh_token' } };
       const mockRes = {
         cookie: jest.fn(),
@@ -70,14 +69,8 @@ describe('AuthController', () => {
 
       const result = await controller.refresh(mockReq, mockRes);
 
-      expect(authService.refreshToken).toHaveBeenCalledWith('mock_refresh_token');
-      expect(mockRes.cookie).toHaveBeenCalledWith(
-        'refreshToken',
-        'new_refresh_token',
-        expect.objectContaining({
-          httpOnly: true,
-          path: '/',
-        }),
+      expect(authService.refreshToken).toHaveBeenCalledWith(
+        'mock_refresh_token',
       );
       expect(result).toEqual({
         access_token: 'new_access_token',

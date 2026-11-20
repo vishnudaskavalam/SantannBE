@@ -52,12 +52,16 @@ describe('AuthService', () => {
         {
           provide: JwtService,
           useValue: {
-            signAsync: jest.fn().mockImplementation((payload) => Promise.resolve(`signed_${payload.email}`)),
-            verifyAsync: jest.fn().mockImplementation((token) => Promise.resolve({
-              email: 'test@example.com',
-              sub: '507f1f77bcf86cd799439011',
-              tokenType: 'refresh',
-            })),
+            signAsync: jest.fn().mockImplementation((payload) =>
+              Promise.resolve(`signed_${payload.email || payload.sub}`),
+            ),
+            verifyAsync: jest.fn().mockImplementation((token) =>
+              Promise.resolve({
+                email: 'test@example.com',
+                sub: '507f1f77bcf86cd799439011',
+                tokenType: 'refresh',
+              }),
+            ),
           },
         },
         {
@@ -86,18 +90,17 @@ describe('AuthService', () => {
       expect(result).toHaveProperty('refreshToken');
       expect(result).toHaveProperty('user');
       expect(result.access_token).toBe('signed_test@example.com');
-      expect(result.refreshToken).toBe('signed_test@example.com');
+      expect(result.refreshToken).toBe('signed_507f1f77bcf86cd799439011');
     });
   });
 
   describe('refreshToken', () => {
-    it('should verify token and return new access_token and refreshToken without password in user', async () => {
+    it('should verify token and return new access_token without password in user', async () => {
       const result = await service.refreshToken(rawToken);
 
       expect(jwtService.verifyAsync).toHaveBeenCalledWith(rawToken, expect.any(Object));
       expect(userService.findById).toHaveBeenCalledWith('507f1f77bcf86cd799439011');
       expect(result).toHaveProperty('access_token');
-      expect(result).toHaveProperty('refreshToken');
       expect(result.user).not.toHaveProperty('password');
       expect(result.user).not.toHaveProperty('refreshTokenHash');
       expect(result.user.email).toBe('test@example.com');
