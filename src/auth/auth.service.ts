@@ -43,7 +43,7 @@ export class AuthService {
     return crypto.createHash('sha256').update(token).digest('hex');
   }
 
-  private async generateTokens(user: any) {
+  private async generateAccessTokens(user: any) {
     const payload = {
       sub: user._id.toString(),
       email: user.email,
@@ -51,12 +51,16 @@ export class AuthService {
 
     const accessToken = await this.jwtService.signAsync(payload, {
       secret: this.configService.getOrThrow<string>('JWT_ACCESS_SECRET'),
-      expiresIn: this.configService.get<string>(
-        'JWT_ACCESS_EXPIRES_IN',
-        '15m',
-      ) as any,
+      expiresIn: this.configService.get<string>('JWT_ACCESS_EXPIRES_IN') as any,
     });
 
+    return accessToken;
+  }
+
+  private async generateRefreshToken(user: any) {
+    const payload = {
+      sub: user._id.toString(),
+    };
     const refreshToken = await this.jwtService.signAsync(
       { ...payload, tokenType: 'refresh' },
       {
@@ -67,12 +71,11 @@ export class AuthService {
         ) as any,
       },
     );
-
-    return { accessToken, refreshToken };
+    return refreshToken;
   }
-
   async login(user: any) {
-    const { accessToken, refreshToken } = await this.generateTokens(user);
+    const accessToken = await this.generateAccessTokens(user);
+    const refreshToken = await this.generateRefreshToken(user);
 
     // Store only the hash, never the raw refresh token.
     await this.userService.updateRefreshTokenHash(
@@ -93,7 +96,6 @@ export class AuthService {
   async logout(userId: string): Promise<void> {
     await this.userService.updateRefreshTokenHash(userId, null);
   }
-
   async refreshToken(token: string) {
     if (!token) {
       throw new UnauthorizedException('Refresh token is required');
@@ -113,41 +115,32 @@ export class AuthService {
       }
 
       const user = await this.userService.findById(payload.sub);
+
       if (!user || !user.refreshTokenHash) {
         throw new UnauthorizedException('Session expired');
       }
 
       const incomingHash = this.hashToken(token);
-
+      console.log(incomingHash, '-----------', user.refreshTokenHash);
       if (incomingHash !== user.refreshTokenHash) {
         throw new UnauthorizedException('Refresh token has been revoked');
       }
 
-      const { accessToken, refreshToken } = await this.generateTokens(user);
+      const accessToken = await this.generateAccessTokens(user);
 
-      // Replace the old hash with the new hash.
-      // Ideally this must be an atomic compare-and-set DB operation.
-      const updated = await this.userService.compareAndSetRefreshTokenHash(
-        user._id.toString(),
-        incomingHash,
-        this.hashToken(refreshToken),
-      );
-
-      if (!updated) {
-        throw new UnauthorizedException('Refresh token already used');
-      }
-
-      const userObj = user.toObject ? user.toObject() : { ...user };
+      const userObj = user.toObject();
       delete userObj.password;
       delete userObj.refreshTokenHash;
 
       return {
         access_token: accessToken,
-        refreshToken,
         user: userObj,
       };
     } catch (error) {
-      console.log(error)
+      if (error instanceof UnauthorizedException) {
+        throw error;
+      }
+
       throw new UnauthorizedException('Invalid or expired refresh token');
     }
   }

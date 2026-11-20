@@ -82,14 +82,8 @@ export class AuthController {
       throw new UnauthorizedException('Refresh token not found');
     }
 
-    const { access_token, refreshToken, user } =
+    const { access_token, user } =
       await this.authService.refreshToken(token);
-
-    res.cookie(
-      REFRESH_TOKEN_COOKIE,
-      refreshToken,
-      getRefreshTokenCookieOptions(),
-    );
 
     return {
       access_token,
@@ -101,10 +95,7 @@ export class AuthController {
   @ApiResponse({ status: 200, description: 'Logged out successfully.' })
   @UseGuards(JwtAuthGuard)
   @Post('logout')
-  async logout(
-    @Request() req: any,
-    @Res({ passthrough: true }) res: Response,
-  ) {
+  async logout(@Request() req: any, @Res({ passthrough: true }) res: Response) {
     if (req.user?.userId) {
       await this.authService.logout(req.user.userId);
     }
