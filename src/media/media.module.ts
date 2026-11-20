@@ -10,6 +10,6 @@ import { Media, MediaSchema } from './schemas/media.schema';
   ],
   controllers: [MediaController],
   providers: [MediaService],
-  exports: [MediaService]
+  exports: [MediaService],
 })
 export class MediaModule {}

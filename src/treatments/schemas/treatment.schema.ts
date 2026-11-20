@@ -26,7 +26,11 @@ export class Treatment {
   @Prop()
   description: string;
 
-  @Prop({ required: true, enum: ['active', 'inactive', 'deleted'], default: 'active' })
+  @Prop({
+    required: true,
+    enum: ['active', 'inactive', 'deleted'],
+    default: 'active',
+  })
   status: string;
 
   @Prop()

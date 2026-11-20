@@ -103,6 +103,9 @@ class Expert {
 
   @Prop()
   image: string;
+
+  @Prop()
+  description: string;
 }
 
 @Schema()

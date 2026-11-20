@@ -52,7 +52,7 @@ export class TreatmentsController {
   @ApiBody({ type: CreateTreatmentDto })
   @ApiOperation({ summary: 'Create a new treatment (Admin)' })
   @Post()
-  create(@Body() createTreatmentDto: CreateTreatmentDto) {    
+  create(@Body() createTreatmentDto: CreateTreatmentDto) {
     return this.treatmentsService.create(createTreatmentDto);
   }
 

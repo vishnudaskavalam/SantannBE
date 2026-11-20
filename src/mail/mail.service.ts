@@ -15,16 +15,17 @@ export class MailService {
       auth: {
         user: this.configService.get<string>('SMTP_USER', 'test@example.com'),
         pass: this.configService.get<string>('SMTP_PASS', 'password123'),
-      },  
+      },
     });
-
   }
-  
 
   async sendPasswordResetEmail(to: string, token: string): Promise<void> {
-    const frontendUrl = this.configService.get<string>('FRONTEND_URL', 'http://localhost:3000');
+    const frontendUrl = this.configService.get<string>(
+      'FRONTEND_URL',
+      'http://localhost:3000',
+    );
     const resetUrl = `${frontendUrl}/reset-password?token=${token}`;
-console.log(token);
+    console.log(token);
 
     const mailOptions = {
       from: `"Support Team" <${this.configService.get<string>('SMTP_FROM', 'noreply@example.com')}>`,

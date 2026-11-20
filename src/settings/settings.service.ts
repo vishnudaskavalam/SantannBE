@@ -15,17 +15,15 @@ export class SettingsService {
     // Because it's a singleton, we always just update the first document we find,
     // or create it if no document exists.
     const existing = await this.settingModel.findOne();
-    
+
     if (existing) {
       // Find the existing logic and update it deeply via Mongoose or assign
       // Because Mongoose subdocuments behave weirdly with top-level assignments sometimes,
       // it's safest to use $set, but findOneAndUpdate handles deep updates mostly fine.
       // E.g., if updateSettingsDto only has `general`, we don't want to wipe `homePage`.
-      const updated = await this.settingModel.findOneAndUpdate(
-        {}, 
-        { $set: updateSettingsDto }, 
-        { new: true }
-      ).exec();
+      const updated = await this.settingModel
+        .findOneAndUpdate({}, { $set: updateSettingsDto }, { new: true })
+        .exec();
       return updated as Setting;
     }
 
@@ -37,10 +35,13 @@ export class SettingsService {
   async getSettings(keysQuery?: string): Promise<Setting> {
     const query = this.settingModel.findOne();
     if (keysQuery) {
-      const keys = keysQuery.split(',').map(k => k.trim()).join(' ');
+      const keys = keysQuery
+        .split(',')
+        .map((k) => k.trim())
+        .join(' ');
       query.select(keys);
     }
-    
+
     const settings = await query.exec();
     if (!settings) {
       // Return a blank default document if it doesn't exist yet to prevent crashes

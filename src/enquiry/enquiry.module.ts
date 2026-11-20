@@ -6,10 +6,10 @@ import { Enquiry, EnquirySchema } from './schemas/enquiry.schema';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: Enquiry.name, schema: EnquirySchema }])
+    MongooseModule.forFeature([{ name: Enquiry.name, schema: EnquirySchema }]),
   ],
   controllers: [EnquiryController],
   providers: [EnquiryService],
-  exports: [EnquiryService]
+  exports: [EnquiryService],
 })
 export class EnquiryModule {}

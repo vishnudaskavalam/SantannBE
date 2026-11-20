@@ -6,7 +6,9 @@ import { ContactMessage, ContactMessageSchema } from './schemas/contact.schema';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: ContactMessage.name, schema: ContactMessageSchema }]),
+    MongooseModule.forFeature([
+      { name: ContactMessage.name, schema: ContactMessageSchema },
+    ]),
   ],
   controllers: [ContactController],
   providers: [ContactService],

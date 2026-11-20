@@ -24,4 +24,5 @@ export class ContactMessage {
   status: string;
 }
 
-export const ContactMessageSchema = SchemaFactory.createForClass(ContactMessage);
+export const ContactMessageSchema =
+  SchemaFactory.createForClass(ContactMessage);

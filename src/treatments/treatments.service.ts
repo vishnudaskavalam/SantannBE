@@ -17,13 +17,16 @@ export class TreatmentsService {
     return createdTreatment.save();
   }
 
-  async update(id: string, updateTreatmentDto: UpdateTreatmentDto): Promise<Treatment> {
+  async update(
+    id: string,
+    updateTreatmentDto: UpdateTreatmentDto,
+  ): Promise<Treatment> {
     console.log(updateTreatmentDto);
-    
+
     const updatedTreatment = await this.treatmentModel
       .findByIdAndUpdate(id, updateTreatmentDto, { new: true })
       .exec();
-    
+
     if (!updatedTreatment) {
       throw new NotFoundException(`Treatment with ID ${id} not found`);
     }
@@ -49,7 +52,7 @@ export class TreatmentsService {
     const deletedTreatment = await this.treatmentModel
       .findByIdAndUpdate(id, { status: 'deleted' }, { new: true })
       .exec();
-      
+
     if (!deletedTreatment) {
       throw new NotFoundException(`Treatment with ID ${id} not found`);
     }
@@ -73,7 +76,9 @@ export class TreatmentsService {
   }
 
   async findOnePublic(slug: string): Promise<Treatment> {
-    const treatment = await this.treatmentModel.findOne({ slug, status: 'active' }).exec();
+    const treatment = await this.treatmentModel
+      .findOne({ slug, status: 'active' })
+      .exec();
     if (!treatment) {
       throw new NotFoundException(`Treatment with slug ${slug} not found`);
     }

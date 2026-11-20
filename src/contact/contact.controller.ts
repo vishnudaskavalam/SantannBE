@@ -1,8 +1,22 @@
-import { Controller, Get, Post, Body, Patch, Param, Query, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { ContactService } from './contact.service';
 import { CreateContactDto } from './dto/create-contact.dto';
 import { FilterContactDto } from './dto/filter-contact.dto';
-import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiBearerAuth,
+} from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @ApiTags('contacts')
@@ -11,7 +25,10 @@ export class ContactController {
   constructor(private readonly contactService: ContactService) {}
 
   @ApiOperation({ summary: 'Create a new contact message (Public)' })
-  @ApiResponse({ status: 201, description: 'The contact message has been successfully created.' })
+  @ApiResponse({
+    status: 201,
+    description: 'The contact message has been successfully created.',
+  })
   @Post()
   create(@Body() createContactDto: CreateContactDto) {
     return this.contactService.create(createContactDto);
@@ -19,7 +36,9 @@ export class ContactController {
 
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
-  @ApiOperation({ summary: 'List all contact messages with pagination and filters' })
+  @ApiOperation({
+    summary: 'List all contact messages with pagination and filters',
+  })
   @Get()
   findAll(@Query() filterDto: FilterContactDto) {
     return this.contactService.findAll(filterDto);
@@ -48,7 +67,7 @@ export class ContactController {
   findOne(@Param('id') id: string) {
     return this.contactService.findOne(id);
   }
-  
+
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Update contact message status' })

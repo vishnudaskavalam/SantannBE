@@ -40,7 +40,8 @@ async function bootstrap() {
         hours: 'Mon - Sat: 9:00 AM - 6:00 PM',
         address: 'Santaan Clinic, Medical Center',
         logoPath: '',
-        footerDescription: 'Santaan is dedicated to providing the best fertility care with compassion and excellence.',
+        footerDescription:
+          'Santaan is dedicated to providing the best fertility care with compassion and excellence.',
         workingHours: 'Mon - Sat: 9:00 AM - 6:00 PM',
       },
       about: {

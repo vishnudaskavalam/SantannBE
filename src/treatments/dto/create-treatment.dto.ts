@@ -1,5 +1,12 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsString, IsNotEmpty, IsOptional, IsArray, IsEnum, ValidateNested } from 'class-validator';
+import {
+  IsString,
+  IsNotEmpty,
+  IsOptional,
+  IsArray,
+  IsEnum,
+  ValidateNested,
+} from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class ProcessStepDto {
@@ -40,7 +47,10 @@ export class CreateTreatmentDto {
   @IsOptional()
   imagePath?: string;
 
-  @ApiPropertyOptional({ example: 'active', enum: ['active', 'inactive', 'deleted'] })
+  @ApiPropertyOptional({
+    example: 'active',
+    enum: ['active', 'inactive', 'deleted'],
+  })
   @IsEnum(['active', 'inactive', 'deleted'])
   @IsOptional()
   status?: string;
@@ -50,7 +60,10 @@ export class CreateTreatmentDto {
   @IsOptional()
   iconType?: string;
 
-  @ApiPropertyOptional({ type: [String], example: ['High success rate', 'Safe'] })
+  @ApiPropertyOptional({
+    type: [String],
+    example: ['High success rate', 'Safe'],
+  })
   @IsArray()
   @IsString({ each: true })
   @IsOptional()

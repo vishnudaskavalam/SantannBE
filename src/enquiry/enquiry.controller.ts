@@ -1,9 +1,23 @@
-import { Controller, Get, Post, Body, Patch, Param, Query, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { EnquiryService } from './enquiry.service';
 import { CreateEnquiryDto } from './dto/create-enquiry.dto';
 import { UpdateEnquiryStatusDto } from './dto/update-enquiry.dto';
 import { FilterEnquiryDto } from './dto/filter-enquiry.dto';
-import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiBearerAuth,
+} from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @ApiTags('enquiries')
@@ -12,7 +26,10 @@ export class EnquiryController {
   constructor(private readonly enquiryService: EnquiryService) {}
 
   @ApiOperation({ summary: 'Create a new enquiry (Public)' })
-  @ApiResponse({ status: 201, description: 'The enquiry has been successfully created.' })
+  @ApiResponse({
+    status: 201,
+    description: 'The enquiry has been successfully created.',
+  })
   @Post()
   create(@Body() createEnquiryDto: CreateEnquiryDto) {
     return this.enquiryService.create(createEnquiryDto);
@@ -54,7 +71,10 @@ export class EnquiryController {
   @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Update the status or notes of an enquiry' })
   @Patch(':id/status')
-  updateStatus(@Param('id') id: string, @Body() updateEnquiryStatusDto: UpdateEnquiryStatusDto) {
+  updateStatus(
+    @Param('id') id: string,
+    @Body() updateEnquiryStatusDto: UpdateEnquiryStatusDto,
+  ) {
     return this.enquiryService.updateStatus(id, updateEnquiryStatusDto);
   }
 }

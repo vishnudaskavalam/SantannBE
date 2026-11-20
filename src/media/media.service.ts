@@ -13,7 +13,10 @@ export class MediaService {
     private readonly mediaModel: Model<MediaDocument>,
   ) {}
 
-  async createMediaRecord(url: string, createMediaDto: CreateMediaDto): Promise<Media> {
+  async createMediaRecord(
+    url: string,
+    createMediaDto: CreateMediaDto,
+  ): Promise<Media> {
     const createdMedia = new this.mediaModel({
       url,
       type: createMediaDto.type,

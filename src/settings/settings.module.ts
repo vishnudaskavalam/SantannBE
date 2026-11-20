@@ -10,6 +10,6 @@ import { Setting, SettingSchema } from './schemas/setting.schema';
   ],
   controllers: [SettingsController],
   providers: [SettingsService],
-  exports: [SettingsService]
+  exports: [SettingsService],
 })
 export class SettingsModule {}

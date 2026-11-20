@@ -1,3 +1,4 @@
+
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
@@ -8,17 +9,26 @@ export class User {
   @Prop({ required: true })
   name: string;
 
-  @Prop({ required: true, unique: true })
+  @Prop({ required: true, unique: true, lowercase: true, trim: true })
   email: string;
 
-  @Prop({ required: true })
+  @Prop({ required: true, select: false })
   password: string;
 
   @Prop({ required: false })
-  resetPasswordToken?: string;
+  phone?: string;
 
   @Prop({ required: false })
-  resetPasswordExpires?: Date;
+  avatar?: string;
+
+  @Prop({ type: String, default: null, select: false })
+  refreshTokenHash: string | null;
+
+  @Prop({ type: String, default: null, select: false })
+  resetPasswordToken?: string | null;
+
+  @Prop({ type: Date, default: null, select: false })
+  resetPasswordExpires?: Date | null;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

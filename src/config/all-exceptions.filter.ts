@@ -28,18 +28,22 @@ export class AllExceptionsFilter implements ExceptionFilter {
       exception instanceof HttpException
         ? exception.getResponse()
         : exception instanceof Error
-        ? exception.message
-        : 'Internal server error';
+          ? exception.message
+          : 'Internal server error';
 
-    this.logger.error(`Exception: ${JSON.stringify(message)}`, exception instanceof Error ? exception.stack : '');
+    this.logger.error(
+      `Exception: ${JSON.stringify(message)}`,
+      exception instanceof Error ? exception.stack : '',
+    );
 
     const responseBody = {
       statusCode: httpStatus,
       timestamp: new Date().toISOString(),
       path: httpAdapter.getRequestUrl(ctx.getRequest()),
-      message: typeof message === 'object' && message !== null && 'message' in message 
-                 ? (message as any).message 
-                 : message,
+      message:
+        typeof message === 'object' && message !== null && 'message' in message
+          ? (message as any).message
+          : message,
     };
 
     httpAdapter.reply(ctx.getResponse(), responseBody, httpStatus);

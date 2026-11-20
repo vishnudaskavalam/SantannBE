@@ -71,6 +71,18 @@ export class AboutSettingsDto {
   cardBody?: string;
 }
 
+export class TeamSettingsDto {
+  @ApiPropertyOptional()
+  @IsString()
+  @IsOptional()
+  headline?: string;
+
+  @ApiPropertyOptional()
+  @IsString()
+  @IsOptional()
+  body?: string;
+}
+
 export class SectionSettingsDto {
   @ApiPropertyOptional()
   @IsString()
@@ -152,6 +164,11 @@ export class ExpertDto {
   @IsString()
   @IsOptional()
   image?: string;
+
+  @ApiPropertyOptional()
+  @IsString()
+  @IsOptional()
+  description?: string;
 }
 
 export class HomePageSettingsDto {
@@ -192,6 +209,12 @@ export class UpdateSettingsDto {
   @Type(() => AboutSettingsDto)
   @IsOptional()
   about?: AboutSettingsDto;
+
+  @ApiPropertyOptional({ type: TeamSettingsDto })
+  @ValidateNested()
+  @Type(() => TeamSettingsDto)
+  @IsOptional()
+  team?: TeamSettingsDto;
 
   @ApiPropertyOptional({ type: HomePageSettingsDto })
   @ValidateNested()

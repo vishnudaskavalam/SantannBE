@@ -1,6 +1,23 @@
-import { Controller, Post, Get, Delete, Param, UseInterceptors, UploadedFile, Body, UseGuards, BadRequestException } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Get,
+  Delete,
+  Param,
+  UseInterceptors,
+  UploadedFile,
+  Body,
+  UseGuards,
+  BadRequestException,
+} from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiTags, ApiOperation, ApiBearerAuth, ApiConsumes, ApiBody } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiBearerAuth,
+  ApiConsumes,
+  ApiBody,
+} from '@nestjs/swagger';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
 import { MediaService } from './media.service';
@@ -14,7 +31,9 @@ export class MediaController {
 
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
-  @ApiOperation({ summary: 'Upload an image file and register its metadata to the new table' })
+  @ApiOperation({
+    summary: 'Upload an image file and register its metadata to the new table',
+  })
   @ApiConsumes('multipart/form-data')
   @ApiBody({
     schema: {
@@ -26,23 +45,29 @@ export class MediaController {
         },
         type: {
           type: 'string',
-          example: 'hero'
-        }
+          example: 'hero',
+        },
       },
     },
   })
   @Post('upload')
-  @UseInterceptors(FileInterceptor('file', {
-    storage: diskStorage({
-      destination: './uploads',
-      filename: (req: any, file: any, callback: any) => {
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-        const ext = extname(file.originalname);
-        callback(null, `${uniqueSuffix}${ext}`);
-      },
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: diskStorage({
+        destination: './uploads',
+        filename: (req: any, file: any, callback: any) => {
+          const uniqueSuffix =
+            Date.now() + '-' + Math.round(Math.random() * 1e9);
+          const ext = extname(file.originalname);
+          callback(null, `${uniqueSuffix}${ext}`);
+        },
+      }),
     }),
-  }))
-  uploadFile(@UploadedFile() file: any, @Body() createMediaDto: CreateMediaDto) {
+  )
+  uploadFile(
+    @UploadedFile() file: any,
+    @Body() createMediaDto: CreateMediaDto,
+  ) {
     if (!file) {
       throw new BadRequestException('File is required!');
     }
@@ -64,4 +89,3 @@ export class MediaController {
     return this.mediaService.deleteMedia(id);
   }
 }
-

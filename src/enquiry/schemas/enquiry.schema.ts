@@ -11,7 +11,11 @@ export class Enquiry {
   @Prop({ default: Date.now })
   date: Date;
 
-  @Prop({ required: true, enum: ['new', 'contacted', 'resolved', 'deleted'], default: 'new' })
+  @Prop({
+    required: true,
+    enum: ['new', 'contacted', 'resolved', 'deleted'],
+    default: 'new',
+  })
   status: string;
 
   @Prop()

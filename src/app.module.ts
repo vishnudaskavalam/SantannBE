@@ -9,17 +9,23 @@ import { TreatmentsModule } from './treatments/treatments.module';
 import { SettingsModule } from './settings/settings.module';
 import { MediaModule } from './media/media.module';
 import { ContactModule } from './contact/contact.module';
+import { ProfileModule } from './profile/profile.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+      envFilePath:
+        process.env.NODE_ENV === 'production' ? '.env.production' : '.env',
     }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
-        uri: configService.get<string>('MONGODB_URI', 'mongodb://localhost:27017/santaan'),
+        uri: configService.get<string>(
+          'MONGODB_URI',
+          'mongodb://localhost:27017/santaan',
+        ),
       }),
     }),
     UserModule,
@@ -30,6 +36,7 @@ import { ContactModule } from './contact/contact.module';
     SettingsModule,
     MediaModule,
     ContactModule,
+    ProfileModule,
   ],
 })
 export class AppModule {}
